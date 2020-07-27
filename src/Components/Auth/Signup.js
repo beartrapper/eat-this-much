@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import firebase, { firestore } from "../../firebase";
-import { Link } from "react-router-dom";
 import Signin from "./Login";
+import moment from "moment";
 
 export default function Signup() {
   const [userEmail, setUserEmail] = useState("");
@@ -26,7 +26,7 @@ export default function Signup() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-
+    let expiryDate = moment().add(15, "days")._d;
     firebase
       .auth()
       .createUserWithEmailAndPassword(userEmail, userpassword)
@@ -34,9 +34,12 @@ export default function Signup() {
         console.log(res.user.uid);
         setLoading(false);
 
-        // firestore.collection("users").doc(res.user.uid).set({
+        let savedFood = [];
 
-        // });
+        firestore.collection("users").doc(res.user.uid).set({
+          expiryDate,
+          savedFood,
+        });
       })
       .catch((err) => {
         setError(true);

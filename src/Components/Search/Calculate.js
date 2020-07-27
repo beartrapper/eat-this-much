@@ -1,44 +1,86 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Results from "./Results";
 import Signup from "../Auth/Signup";
 import Signin from "../Auth/Login";
+import { auth } from "../../firebase";
+
 
 export default function Calculate() {
   const [selectedDiet, setSelectedDiet] = useState("Paleo");
   const [calories, setSelectedCalories] = useState(50);
   const [numberOfMeals, setNumberOfMeals] = useState(1);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [results, setResults] = useState([]);
+  const [resultsFetched, setResultsFetched] = useState(false);
+  const [URL, setURL] = useState(false);
+  const [UID, setUID] = useState("");
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setLoggedIn(true);
+        setUID(user.uid);
+        console.log("user", user);
+      }
+    });
+  }, []);
 
   const handleselectedDiet = (tabType) => {
     setSelectedDiet(tabType);
+    setError(false);
   };
 
   const handleCalories = (e) => {
     setSelectedCalories(e.target.value);
+    setError(false);
+    setResultsFetched(false);
   };
 
   const handleNumberOfMeals = (e) => {
     console.log(e.target.value);
     setNumberOfMeals(e.target.value);
+    setError(false);
+    setResultsFetched(false);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     let minNumberOfCalories;
     minNumberOfCalories = calories / numberOfMeals;
 
-    axios
-      .get(
-        `https://api.spoonacular.com/recipes/complexSearch?&apiKey=c8de050c8a624c8b8a913fa9bb1cfcb9&diet=${selectedDiet}&addRecipeInformation=true&addRecipeNutrition=true&minCalories=${minNumberOfCalories}&maxCalories=${
-          minNumberOfCalories + 30
-        }&number=1`
-      )
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log("err in fetching data" + err);
-      });
+    if (minNumberOfCalories < 70) {
+      setError(true);
+      setLoading(false);
+    } else {
+      //setting the URL for props
+      setURL(
+        `https://api.spoonacular.com/recipes/complexSearch?&apiKey=8a4a22c796294076b018358e8d728962&diet=${selectedDiet}&addRecipeInformation=true&addRecipeNutrition=true&minCalories=${
+          minNumberOfCalories - 20
+        }&maxCalories=${minNumberOfCalories}&number=${numberOfMeals}`
+      );
+
+      //state may or may not get updated this soon so not using URL variable down in axios
+      axios
+        .get(
+          `https://api.spoonacular.com/recipes/complexSearch?&apiKey=8a4a22c796294076b018358e8d728962&diet=${selectedDiet}&addRecipeInformation=true&addRecipeNutrition=true&minCalories=${
+            minNumberOfCalories - 10
+          }&maxCalories=${minNumberOfCalories}&number=${numberOfMeals}`
+        )
+        .then((res) => {
+          console.log(res);
+          setResults(res.data.results);
+          setResultsFetched(true);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log("err in fetching data" + err);
+          setLoading(false);
+        });
+    }
   };
 
   return (
@@ -62,7 +104,7 @@ export default function Calculate() {
           </div>
         </div>
       </div>
-      {/* header text - ennd */}
+      {/* header text - end */}
 
       <div className="home_generator_box container pb-5 mb-5">
         <div className="row generator_header_div">
@@ -206,14 +248,14 @@ export default function Calculate() {
                 <label for="cal_input" id="cal-input-label">
                   Calories
                 </label>
-                <a
+                {/* <a
                   href="javascript:void(0);"
                   className="orange_link"
                   id="not_sure_button"
                 >
                   <i className="fa fa-calculator" aria-hidden="true"></i>
                   Not sure?
-                </a>
+                </a> */}
               </div>
             </div>
             <div className="row form-group">
@@ -251,13 +293,25 @@ export default function Calculate() {
               <div className="col-12 col-md-3 offset-md-4 offset-lg-5">
                 <button
                   type="button"
-                  className="btn btn-lg btn-block btn-orange gen_button"
+                  className={
+                    "btn btn-lg btn-block btn-orange gen_button btn-primary " +
+                    (loading ? " disabled" : "")
+                  }
                   data-loading-text="Generate"
                   onClick={handleSubmit}
                 >
-                  Generate
+                  {loading ? "Generating" : "Generate"}
                 </button>
               </div>
+            </div>
+            <div className="col-sm-12">
+              {error ? (
+                <div className="alert alert-danger col-sm-12 mt-3 text-center">
+                  Calories for {numberOfMeals} meals cannot be this low.
+                </div>
+              ) : (
+                <></>
+              )}
             </div>
 
             {/* LOADER  */}
@@ -275,34 +329,54 @@ export default function Calculate() {
           </div>
         </div>
 
-        {/* LOADER v2 */}
-        {/* <div className="auto_generator_div">
-          <div className="row form-group loading-text">
-            <div className="col-12">
-              <h4>Generating your meal plan...</h4>
-            </div>
-            <div className="col-12">
-              <svg className="etm-icon etm-icon-md">
-                <use href="#hungry-puck-loader"></use>
-              </svg>
-              <span className="insert-loading-text"></span>
+        {loading ? (
+          <div className="container mt-5">
+            {/* LOADER v2 */}
+            <div className="auto_generator_div">
+              <div className="row form-group loading-text">
+                <div className="col-12">
+                  <h4>Generating your meal plan...</h4>
+                </div>
+                <div className="col-12">
+                  <svg className="etm-icon etm-icon-md">
+                    <use href="#hungry-puck-loader"></use>
+                  </svg>
+                  <span className="insert-loading-text"></span>
+                </div>
+              </div>
             </div>
           </div>
-        </div> */}
+        ) : (
+          <></>
+        )}
       </div>
 
-      <div className="container"></div>
-      <div className="col-sm-12">
-        <div className="row">
-          <div className="col-sm-7">
-            <Results />
-          </div>
-          <div className="col-sm-5">
-            <Signup />
-            {/* <Signin /> */}
+      {resultsFetched ? (
+        <div className="col-sm-12">
+          <div className="row">
+            <div className={!loggedIn ? "col-sm-8" : "col-sm-10"}>
+              <Results
+                results={results}
+                URL={URL}
+                diet={selectedDiet}
+                loggedIn={loggedIn}
+                UID={UID}
+              />
+              
+            </div>
+            {!loggedIn ? (
+              <div className="col-sm-4">
+                <Signup />
+                {/* <Signin /> */}
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
-      </div>
+      ) : (
+        <></>
+      )}
     </>
   );
 }
