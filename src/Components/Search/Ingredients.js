@@ -98,10 +98,14 @@ export default function Ingredients(props) {
               onClick={addToCartButton}
               className={
                 "col-sm-12 btn mt-5 p-3" +
-                (addToCartSignUpBanner ? " btn-danger" : " btn-primary")
+                (addToCartSignUpBanner && !props.loggedIn ? " btn-danger" : " btn-primary")
               }
             >
-              {!addToCartSignUpBanner ? <></> : <>Please sign up first</>}
+              {!addToCartSignUpBanner ? <></> : <>{!props.loggedIn ? <>
+                Please sign up first
+              </>:<>
+              Add to Cart
+              </>}</>}
 
               {!addToCart && !addToCartSignUpBanner ? (
                 <>

@@ -11,13 +11,11 @@ export default function Signup() {
   const [error, setError] = useState(false);
 
   const handleEmail = (e) => {
-    console.log(e.target.value);
     setUserEmail(e.target.value);
     setError(false);
   };
 
   const handlePassword = (e) => {
-    console.log(e.target.value);
     setError(false);
 
     setUserPassword(e.target.value);
@@ -31,7 +29,6 @@ export default function Signup() {
       .auth()
       .createUserWithEmailAndPassword(userEmail, userpassword)
       .then((res) => {
-        console.log(res.user.uid);
         setLoading(false);
 
         let savedFood = [];
@@ -76,11 +73,11 @@ export default function Signup() {
                   onSubmit={handleSubmit}
                   id="registration_form"
                 >
-                  <input
+                  {/* <input
                     type="hidden"
                     name="csrfmiddlewaretoken"
                     value="K8g1ArIAiqUQfg9EH4ONEhcW0elmEhHL1Rw0LVWx63XftswNeUUIMRYVWYapFb31"
-                  />
+                  /> */}
                   <fieldset>
                     <div class="form-group row">
                       <label for="id_email" class="col-12 col-form-label">

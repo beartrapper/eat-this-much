@@ -26,7 +26,6 @@ export default function Signin() {
       .auth()
       .signInWithEmailAndPassword(userEmail, userpassword)
       .then((res) => {
-        console.log(res.user.uid);
         setLoading(false);
       })
       .catch((err) => {
@@ -64,11 +63,7 @@ export default function Signin() {
                   onSubmit={handleSubmit}
                   id="registration_form"
                 >
-                  <input
-                    type="hidden"
-                    name="csrfmiddlewaretoken"
-                    value="K8g1ArIAiqUQfg9EH4ONEhcW0elmEhHL1Rw0LVWx63XftswNeUUIMRYVWYapFb31"
-                  />
+                 
                   <fieldset>
                     <div class="form-group row">
                       <label for="id_email" class="col-12 col-form-label">
