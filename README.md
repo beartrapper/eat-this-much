@@ -8,6 +8,6 @@ This is a clone of eatthismuch.com.
 <li>
 Added a calendar where you can save the meal
 </li>
-<p>
+<li>
 Payments have been modified.
 </li>
