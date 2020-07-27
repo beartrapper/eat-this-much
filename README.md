@@ -1,13 +1,13 @@
 This is a clone of eatthismuch.com.
 <br />
 <h3>Modified Functionality</h3>
-<p>
+<li>
   Added an ingredients list
-</p>
+</li>
 
-<p>
+<li>
 Added a calendar where you can save the meal
-</p>
+</li>
 <p>
 Payments have been modified.
-</p>
+</li>
