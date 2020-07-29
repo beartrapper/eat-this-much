@@ -1,6 +1,6 @@
 This is a clone of eatthismuch.com based on the spoonacular database. 
 <br />
-planner.unwantedfats.com 
+<a href="planner.unwantedfats.com">planner.unwantedfats.com</a> 
 <br />
 And I changed the API key so don't even think about it.
 <br />
