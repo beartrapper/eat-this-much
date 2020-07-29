@@ -58,7 +58,7 @@ export default function Calculate() {
     } else {
       //setting the URL for props
       setURL(
-        `https://api.spoonacular.com/recipes/complexSearch?&apiKey=8a4a22c796294076b018358e8d728962&diet=${selectedDiet}&addRecipeInformation=true&addRecipeNutrition=true&minCalories=${
+        `https://api.spoonacular.com/recipes/complexSearch?&apiKey=57649005808344c8ad07d17bf36286c4&diet=${selectedDiet}&addRecipeInformation=true&addRecipeNutrition=true&minCalories=${
           minNumberOfCalories - 20
         }&maxCalories=${minNumberOfCalories}&number=${numberOfMeals}`
       );
@@ -66,7 +66,7 @@ export default function Calculate() {
       //state may or may not get updated this soon so not using URL variable down in axios
       axios
         .get(
-          `https://api.spoonacular.com/recipes/complexSearch?&apiKey=8a4a22c796294076b018358e8d728962&diet=${selectedDiet}&addRecipeInformation=true&addRecipeNutrition=true&minCalories=${
+          `https://api.spoonacular.com/recipes/complexSearch?&apiKey=57649005808344c8ad07d17bf36286c4&diet=${selectedDiet}&addRecipeInformation=true&addRecipeNutrition=true&minCalories=${
             minNumberOfCalories - 10
           }&maxCalories=${minNumberOfCalories}&number=${numberOfMeals}`
         )

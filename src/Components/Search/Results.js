@@ -103,7 +103,7 @@ export default function Results(props) {
 
       axios
         .get(
-          `https://api.spoonacular.com/recipes/complexSearch?&apiKey=8a4a22c796294076b018358e8d728962&diet=${
+          `https://api.spoonacular.com/recipes/complexSearch?&apiKey=57649005808344c8ad07d17bf36286c4&diet=${
             props.diet
           }&addRecipeInformation=true&addRecipeNutrition=true&minCalories=${
             arrayItemToBeRemoved.nutrition[0].amount - 20
