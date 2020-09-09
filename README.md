@@ -1,4 +1,9 @@
-This is a clone of eatthismuch.com.
+This is a clone of eatthismuch.com based on the spoonacular database. 
+<br />
+<a href="http://planner.unwantedfats.com">planner.unwantedfats.com</a> 
+<br />
+And I changed the API key so don't even think about it.
+<br />
 <br />
 <h3>Modified Functionality</h3>
 <li>
