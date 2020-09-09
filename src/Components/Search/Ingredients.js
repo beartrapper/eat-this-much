@@ -2,54 +2,16 @@ import React, { useEffect, useState } from "react";
 import { FaBeer, FaShoppingCart } from "react-icons/fa";
 
 export default function Ingredients(props) {
-  console.log(props);
   const [ingredientsToBeUsed, setIngredientsToBeUsed] = useState([]);
   const [addToCart, setAddToCart] = useState(false);
   const [addToCartSignUpBanner, setAddToCartSignUpBanner] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth)
 
   useEffect(() => {
-    let Ingredients = [];
+    console.log('porps', props)
 
-    for (
-      let count_first = 0;
-      count_first < props.results.length;
-      count_first++
-    ) {
-      for (
-        let count_second = 0;
-        count_second < props.results[count_first].analyzedInstructions.length;
-        count_second++
-      ) {
-        for (
-          let count_third = 0;
-          count_third <
-          props.results[count_first].analyzedInstructions[count_second].steps
-            .length;
-          count_third++
-        ) {
-          for (
-            let count_fourth = 0;
-            count_fourth <
-            props.results[count_first].analyzedInstructions[count_second].steps[
-              count_third
-            ].ingredients.length;
-            count_fourth++
-          ) {
-            Ingredients.push(
-              props.results[count_first].analyzedInstructions[count_second]
-                .steps[count_third].ingredients[count_fourth]
-            );
-          }
-        }
-      }
-    }
-
-    const uniqueIngredients = Array.from(
-      new Set(Ingredients.map((a) => a.id))
-    ).map((id) => {
-      return Ingredients.find((a) => a.id === id);
-    });
-    setIngredientsToBeUsed(uniqueIngredients);
+    if(props.ingredrients.length != 0)
+    setIngredientsToBeUsed(props.ingredrients)
   }, [props]);
 
   const addToCartButton = () => {
@@ -60,30 +22,36 @@ export default function Ingredients(props) {
 
   return (
     <div class="row mt-5 ">
-      <div class="col-12 col-md-8  offset-lg-1">
+      <div class="col-12 col-md-8  offset-lg-1 ">
         <hr className="hr" />
         <div class="row pb-5 ">
           <div class="day_header col-12 text-center">
             {/* Regenerate */}
             <div class="row pl-3 rounded shadow bg-white pt-3 pb-2 kali-khaloti">
               <h6>
-                <b>INGREDIENTS</b>
+                <b>{props.title}</b> - <span className="text-grey custom-fon-tos">Please click on the meal to show ingredients</span>
               </h6>{" "}
             </div>
-            <div className="col-sm-12 ">
+            <div className="col-12 ">
               <div className="row">
                 {ingredientsToBeUsed.map((item, key) => {
                   let image = `https://spoonacular.com/cdn/ingredients_100x100/${item.image}`;
                   return (
                     <>
-                      <div className="col-sm-2  pt-4">
+                      <div className={"  pt-4" + (width > 700 ? " col-3": " col-3 img-curtsom")}>
+                      <div class="bg-white  shadow rounded row mt-1 text-sm-custom centering-mice mb-1 ">
+                          <div className="text-sm-custom text-center">
+                            {item.amount.metric.value}&nbsp;
+                            {item.amount.metric.unit}
+                          </div>
+                        </div>
                         <div class="row myDIV">
                           <img
                             class="image-progress-woth p-2 img-round shadow bg-white image-hover-bigger "
                             src={image}
                           />
                         </div>
-                        <div class="bg-white shadow rounded hide row mt-1 text-sm-custom centering-mice">
+                        <div class="bg-white shadow rounded row mt-1 text-sm-custom centering-mice">
                           <div className="text-sm-custom text-center">
                             {item.name}
                           </div>
@@ -94,10 +62,12 @@ export default function Ingredients(props) {
                 })}
               </div>
             </div>
-            <button
+  
+                {/* THIS WILL SERVE AS THE SAVE BUTTON IN FUTURE */}
+            {/* <button
               onClick={addToCartButton}
               className={
-                "col-sm-12 btn mt-5 p-3" +
+                "col-12 btn mt-5 p-3" +
                 (addToCartSignUpBanner && !props.loggedIn ? " btn-danger" : " btn-primary")
               }
             >
@@ -114,7 +84,7 @@ export default function Ingredients(props) {
               ) : (
                 <>{!addToCartSignUpBanner ? <>Added</> : <></>}</>
               )}
-            </button>
+            </button> */}
           </div>
         </div>
         <hr className=" hr" />

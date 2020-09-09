@@ -58,20 +58,20 @@ export default function Calculate() {
     } else {
       //setting the URL for props
       setURL(
-        `https://api.spoonacular.com/recipes/complexSearch?&apiKey=57649005808344c8ad07d17bf36286c4&diet=${selectedDiet}&addRecipeInformation=true&addRecipeNutrition=true&minCalories=${
+        `https://api.spoonacular.com/recipes/complexSearch?&apiKey=cb892b54289a40008352c207b3128246&diet=${selectedDiet}&addRecipeInformation=true&addRecipeNutrition=true&minCalories=${
           minNumberOfCalories - 20
         }&maxCalories=${minNumberOfCalories}&number=${numberOfMeals}`
       );
 
-      //state may or may not get updated this soon so not using URL variable down in axios
+      //state may or may not get updated this soon so not using the URL variable down in axios;
       axios
         .get(
-          `https://api.spoonacular.com/recipes/complexSearch?&apiKey=57649005808344c8ad07d17bf36286c4&diet=${selectedDiet}&addRecipeInformation=true&addRecipeNutrition=true&minCalories=${
+          `https://api.spoonacular.com/recipes/complexSearch?&apiKey=cb892b54289a40008352c207b3128246&diet=${selectedDiet}&addRecipeInformation=true&addRecipeNutrition=true&minCalories=${
             minNumberOfCalories - 10
           }&maxCalories=${minNumberOfCalories}&number=${numberOfMeals}`
         )
         .then((res) => {
-          console.log(res);
+          console.log('here is he res', res);
           setResults(res.data.results);
           setResultsFetched(true);
           setLoading(false);
@@ -91,14 +91,11 @@ export default function Calculate() {
           <div className="container">
             <div className="row">
               <div className="col-12 text-center big_top_margin top_spacer">
-                <h1 className="display-5">Put your diet on autopilot</h1>
+                <h1 className="display-5">Weight Loss Solutions Meal Planner App</h1>
               </div>
               <div className="col-md-8 offset-md-2 text-center top_margin text-medium-old">
-                Eat This Much creates personalized meal plans based on your food
-                preferences, budget, and schedule. Reach your diet and
-                nutritional goals with our calorie calculator, weekly meal
-                plans, grocery lists and more.{" "}
-                <strong>Create your meal plan right here in seconds.</strong>
+              Save time, money and effort for your meals. Achieve your ideal body weight with our Meal Planner App. Just fill in the necessary details and {" "}
+                <strong>create your meal plan in seconds..</strong>
               </div>
             </div>
           </div>

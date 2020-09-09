@@ -72,7 +72,7 @@ export default function Home() {
                           <div class="row text-center bottom_margin">
                             <div class="col-12 text-white">
                               Looking for &nbsp;
-                              <a href="unwantedfats.com">
+                              <a href="https://unwantedfats.com">
                                 a way back to main site?
                               </a>
                             </div>

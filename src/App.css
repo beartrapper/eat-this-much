@@ -30853,6 +30853,14 @@ li a.management_links {
   border-radius: 10px;
 }
 
+.cursor-pointer:hover {
+  cursor: pointer;
+}
+
+
+.custom-fon-tos {
+  /* font-size: 0.8em !important; */
+}
 /*             */
 /*             */
 /*             */
@@ -31050,13 +31058,21 @@ li a.management_links {
 
   .centering-mice {
     font-size: 1em;
-    width: 50%;
+    width: 65%;
     text-align: center !important;
-    padding-left: 30px !important;
+    padding-left: 60px !important;
     margin-left: 18vw !important;
     margin-right: auto !important;
   }
   
+}
+
+.img-curtsom {
+  /* height: 25vh !important; */
+  min-width: 100vw !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  text-align: center !important;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Recursive&display=swap');

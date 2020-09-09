@@ -7,7 +7,6 @@ import Calendar from "react-calendar";
 import { firestore } from "../../firebase";
 import moment from "moment";
 import Ingredients from "./Ingredients";
-import CalendarMod from "../Calendar/Calendar";
 
 export default function Results(props) {
   const [results, setResults] = useState([]);
@@ -24,6 +23,8 @@ export default function Results(props) {
   const [date, setDate] = useState(new Date());
   const [loadingMealSave, setLoadingMealSave] = useState(false);
   const [changeTilesColor, setChangeTilesColor] = useState([]);
+  const [mealIngredients, setMealIngredients] = useState([]);
+  const [title, setTitle] = useState("INGREDIENTS");
 
   //CLOSE ICON FOR MODAL
   const closeIcon = (
@@ -103,7 +104,7 @@ export default function Results(props) {
 
       axios
         .get(
-          `https://api.spoonacular.com/recipes/complexSearch?&apiKey=57649005808344c8ad07d17bf36286c4&diet=${
+          `https://api.spoonacular.com/recipes/complexSearch?&apiKey=cb892b54289a40008352c207b3128246&diet=${
             props.diet
           }&addRecipeInformation=true&addRecipeNutrition=true&minCalories=${
             arrayItemToBeRemoved.nutrition[0].amount - 20
@@ -190,7 +191,6 @@ export default function Results(props) {
   // }
 
   const [dateBigOne, setDateBigOne] = useState(new Date());
-
   const handleChangeDateBigOne = (_date) => {
     setDateBigOne(_date);
     firestore
@@ -207,6 +207,20 @@ export default function Results(props) {
         }
       });
   };
+
+  //getting ingredients for a specific meal
+  const handleIngredientsForSpecificMeal = (id, title) => {
+    console.log(id);
+    setTitle(title)
+    axios.get(`https://api.spoonacular.com/recipes/${id}/ingredientWidget.json?&apiKey=cb892b54289a40008352c207b3128246`)
+      .then(ingredrients => {
+        console.log(ingredrients.data)
+        setMealIngredients(ingredrients.data.ingredients);
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 
   return (
     <>
@@ -395,7 +409,7 @@ export default function Results(props) {
                         return (
                           <>
                             {done ? (
-                              <div class="meal_box meal_container row">
+                              <div onClick={() => handleIngredientsForSpecificMeal(item.id, Title)} class="meal_box meal_container row cursor-pointer">
                                 <div class="meal_blocking_overlay"></div>
                                 <div class="col-12 meal_header align-items-center">
                                   <div class="row">
@@ -553,7 +567,7 @@ export default function Results(props) {
           </div>
         </div>
       </div>
-      <Ingredients results={results} loggedIn={props.loggedIn} />
+      <Ingredients title={title} ingredrients={mealIngredients} results={results} loggedIn={props.loggedIn} />
 
       <div class="row mt-1 ">
         <div class="col-12 col-md-8  offset-lg-1">
